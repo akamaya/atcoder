@@ -21,6 +21,14 @@ fun Scanner.nextIntList(size: Int): List<Int> {
     return list
 }
 
+inline fun Int.times(body: (index: Int) -> Unit) {
+    var index = 0
+    while (index < this) {
+        body(index)
+        index++
+    }
+}
+
 data class Point(val y: Int, val x: Int) {
     companion object {
         fun fromIndex(index: Int, ySize: Int): Point {
@@ -128,6 +136,10 @@ fun problem() {
     for (a in 1..100) {
         mat.add(mutableListOf<Char>())
     }
+    5.times {
+        println(it)
+    }
+
     for (y in 0..99) {
         for (x in 0..99) {
             val c = if ((y + x) % 2 == 0) {
