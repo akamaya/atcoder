@@ -12,6 +12,15 @@ fun Scanner.nextChar(): Char {
     }
 }
 
+fun Scanner.nextIntList(size: Int): List<Int> {
+    val list = mutableListOf<Int>()
+    for (i in 1..size) {
+        list.add(this.nextInt())
+    }
+
+    return list
+}
+
 data class Point(val y: Int, val x: Int) {
     companion object {
         fun fromIndex(index: Int, ySize: Int): Point {
@@ -105,6 +114,7 @@ fun main(args: Array<String>) {
     problem()
 
 }
+
 
 fun problem() {
 
