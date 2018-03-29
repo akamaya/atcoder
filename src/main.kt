@@ -29,18 +29,19 @@ inline fun Int.times(body: (index: Int) -> Unit) {
     }
 }
 
-data class Point(val y: Int, val x: Int) {
+class Point(vararg ps: Int) {
+/*
     companion object {
         fun fromIndex(index: Int, ySize: Int): Point {
             return Point(index / ySize, index % ySize)
         }
-    }
+    }*/
 }
 
 class MatrixIterator<T>(val matrix: Matrix<T>) {
     var index = 0
     operator fun hasNext(): Boolean {
-        return index < matrix.list.size
+        return index < matrix.size
     }
 
     operator fun next(): T {
@@ -54,18 +55,27 @@ class MatrixIterator<T>(val matrix: Matrix<T>) {
 
 }
 
-data class Matrix<T>(val ySize: Int, val xSize: Int, val init: T, val separator: Char? = null) {
+class Matrix<T>(vararg _dim: Int, ini: () -> T) {
+    val dim = _dim
+
+    val size = this.dim.reduce { acc, i -> acc * i }
+
     val list = mutableListOf<T>()
 
     init {
-        for (i in 1..(ySize * xSize)) {
-            list.add(init)
+        this.size.times {
+            list.add(ini())
         }
     }
 
     operator fun iterator(): MatrixIterator<T> {
         return MatrixIterator(this)
     }
+
+    fun size(): Int {
+        return this.dim.reduce { acc, i -> acc * i }
+    }
+
 
     fun read(reader: () -> T) {
         list.forEachIndexed { i, t -> list[i] = reader() }
@@ -126,7 +136,7 @@ fun main(args: Array<String>) {
 
 fun problem() {
 
-    val A = sc.nextInt()
+    val SIZE = sc.nextInt()
     val B = sc.nextInt()
 
     val x = 0
